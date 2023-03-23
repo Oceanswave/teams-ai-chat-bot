@@ -29,7 +29,6 @@ export class SayItCommandHandler implements TeamsFxBotCommandHandler {
       if (groups.voice) {
         voiceId = groups.voice;
       }
-      console.dir(groups);
       if (groups.stability) {
         stability = parseInt(groups.stability.substring(1)) / 100;
       }

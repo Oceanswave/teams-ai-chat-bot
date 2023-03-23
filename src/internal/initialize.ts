@@ -1,6 +1,6 @@
-import { HelloWorldCommandHandler } from "../helloworldCommandHandler";
 import { GptCommandHandler } from "../gptCommandHandler";
 import { SayItCommandHandler } from "../sayItCommandHandler";
+import { DreamCommandHandler } from "../dreamCommandHandler";
 import { BotBuilderCloudAdapter } from "@microsoft/teamsfx";
 import ConversationBot = BotBuilderCloudAdapter.ConversationBot;
 import config from "./config";
@@ -18,6 +18,6 @@ export const commandBot = new ConversationBot({
   },
   command: {
     enabled: true,
-    commands: [new GptCommandHandler(), new SayItCommandHandler()],
+    commands: [new GptCommandHandler(), new SayItCommandHandler(), new DreamCommandHandler()],
   },
 });

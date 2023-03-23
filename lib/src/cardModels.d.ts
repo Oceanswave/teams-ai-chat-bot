@@ -11,3 +11,8 @@ export interface AudioCardData {
     body: string;
     audioUrl: string;
 }
+export interface ImageCardData {
+    title: string;
+    body: string;
+    imageUrl: string;
+}
