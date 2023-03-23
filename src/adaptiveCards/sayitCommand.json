@@ -1,0 +1,35 @@
+{
+  "type": "AdaptiveCard",
+  "body": [
+    {
+      "type": "TextBlock",
+      "size": "Medium",
+      "weight": "Bolder",
+      "text": "${title}"
+    },
+    {
+      "type": "TextBlock",
+      "size": "Small",
+      "weight": "default",
+      "text": "${body}"
+    },
+    {
+      "type": "Media",
+      "sources": [
+          {
+              "mimeType": "audio/mpeg",
+              "url": "${audioUrl}"
+          }
+        ]
+    }
+  ],
+  "actions": [
+    {
+      "type": "Action.OpenUrl",
+      "title": "Download MP3",
+      "url": "${audioUrl}"
+    }
+  ],
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "version": "1.4"
+}
