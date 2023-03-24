@@ -1,56 +1,27 @@
-async function textToImage(text: string): Promise<Buffer[]> {
-  const engineId = 'stable-diffusion-v1-5'
-  const apiHost = process.env.API_HOST ?? 'https://api.stability.ai'
-  const apiKey = process.env.STABILITY_API_KEY
+import { Configuration, OpenAIApi } from "openai";
 
-  if (!apiKey) throw new Error('Missing Stability API key.')
+async function textToImage(text: string): Promise<string[]> {
+  const configuration = new Configuration({
+    apiKey: process.env.OPENAI_API_KEY,
+  });
+  const openai = new OpenAIApi(configuration);
 
-  const response = await fetch(
-    `${apiHost}/v1/generation/${engineId}/text-to-image`,
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
-        Authorization: `Bearer ${apiKey}`,
-      },
-      body: JSON.stringify({
-        text_prompts: [
-          {
-            text,
-          },
-        ],
-        cfg_scale: 7,
-        
-        sampler: "K_DPMPP_2M",
-        height: 512,
-        width: 512,
-        samples: 1,
-        steps: 25,
-      }),
-    }
-  )
+  const response = await openai.createImage({
+    prompt: text,
+    n: 1,
+    size: '1024x1024',
+  });
   
-  if (!response.ok) {
-    throw new Error(`Non-200 response: ${await response.text()}`)
+  if (response.status !== 200) {
+    throw new Error(`Non-200 response: ${response.statusText}`)
   }
 
-  const responseJSON = (await response.json()) as GenerationResponse
-  
-  const result: Buffer[] = [];
-  responseJSON.artifacts.forEach((image, index) => {
-    result.push(Buffer.from(image.base64, 'base64'))
+  const result: string[] = [];
+  response.data.data.forEach((image, index) => {
+    result.push(image.url)
   });
 
   return result;
 }
 
 export default textToImage;
-
-interface GenerationResponse {
-  artifacts: Array<{
-    base64: string
-    seed: number
-    finishReason: string
-  }>
-}

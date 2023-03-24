@@ -24,18 +24,12 @@ export class DreamCommandHandler implements TeamsFxBotCommandHandler {
     if (dreamRegex.test(message.text)) {
       const groups = dreamRegex.exec(message.text)?.groups
       text = groups.text;      
-      console.log(`Bot received dream: text: ${text}`);
+      console.log(`Bot received dream: ${text}`);
     } else {
       return;
     }
 
-    const imageUrls = [];
-    const imageBuffers = await textToImage(text);
-    for (const buffer of imageBuffers) {
-      const fileName = generateRandomString(64);
-      const imageUrl = await uploadToBlobStorage(`dreamtti`, fileName + '.png', buffer);
-      imageUrls.push(imageUrl);
-    }
+    const imageUrls = await textToImage(text);
 
     // Render your adaptive card for reply message
     const cardData: ImageCardData = {

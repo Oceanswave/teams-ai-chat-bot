@@ -1,3 +1,2 @@
-/// <reference types="node" />
-declare function textToImage(text: string): Promise<Buffer[]>;
+declare function textToImage(text: string): Promise<string[]>;
 export default textToImage;
